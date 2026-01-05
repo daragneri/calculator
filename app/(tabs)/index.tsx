@@ -12,17 +12,29 @@ const rows = [
 
 export default function HomeScreen() {
   const [display, setDisplay] = useState("");
-  const[operators, setOperators] = useState("");
-  
+  const [operators, setOperators] = useState("");
+  const [displayAux, setDisplayAux] = useState("");
+
   const handleDataFromChild = (data: string | number) => {
     if (data === "C") {
       setDisplay("");
+    } else {
+      if (typeof data === "number") {
+        setDisplay((prev) => prev + data.toString());
+      } else if (data === "+") {
+        setOperators(data);
+        setDisplay((operators) => operators + data.toString());
+      } else if (operators !== "") {
+        setDisplayAux((prev) => prev + data.toString());
+      } else if (data === "=") {
+        //const sum = parseInt(display) + parseInt(displayAux)
+        const dis = parseInt(display);
+        const disAux = parseInt(displayAux);
+        const sum = dis + disAux;
+        setDisplay(sum.toString());
+        console.log(display, displayAux);
+      }
     }
-    if (typeof data === "number") {
-      setDisplay((prev) => prev + data.toString());
-    }
-    if(data === "+") {
-      setDisplay((prev) => prev.toString() + data)
   };
   return (
     <View style={styles.container}>
