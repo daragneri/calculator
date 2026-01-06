@@ -13,26 +13,46 @@ const rows = [
 export default function HomeScreen() {
   const [display, setDisplay] = useState("");
   const [operators, setOperators] = useState("");
-  const [displayAux, setDisplayAux] = useState("");
+  const [num1, setNum1] = useState("");
+  const [num2, setNum2] = useState("");
 
   const handleDataFromChild = (data: string | number) => {
     if (data === "C") {
+      setOperators("");
       setDisplay("");
-    } else {
-      if (typeof data === "number") {
+      setNum1("");
+      setNum2("");
+    } 
+    
+    else {
+      if (typeof data === "number" && operators === "") {
+        setNum1((prev) => prev + data.toString());
         setDisplay((prev) => prev + data.toString());
-      } else if (data === "+") {
+      } 
+
+      else if (data === "=") {
+        const n1 = parseInt(num1);
+        const n2 = parseInt(num2);
+        const sum = n1 + n2;
+        setDisplay(sum.toString());
+        console.log("entrou");
+      }
+      
+      else if (operators !== "") {
+        setNum2((prev) => prev + data.toString());
+        setDisplay((prev) => prev + data.toString());
+      }
+
+      else if (data === "+") {
         setOperators(data);
         setDisplay((operators) => operators + data.toString());
-      } else if (operators !== "") {
-        setDisplayAux((prev) => prev + data.toString());
-      } else if (data === "=") {
-        //const sum = parseInt(display) + parseInt(displayAux)
-        const dis = parseInt(display);
-        const disAux = parseInt(displayAux);
-        const sum = dis + disAux;
-        setDisplay(sum.toString());
-        console.log(display, displayAux);
+        
+      }
+       
+      
+      
+      else if (operators !== "") {
+        setNum2((prev) => prev + data.toString());
       }
     }
   };
